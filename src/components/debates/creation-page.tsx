@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "El titulo es requerido" }).max(50, {
@@ -43,13 +44,19 @@ export default function CreationPage() {
 
       form.reset();
       router.push("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error("Error creating debate:", error);
+      toast.error(
+        error.response.data.message || "Error interno del servidor.",
+        {
+          description: "Por favor, intentenlo de nuevo.",
+        }
+      );
     }
   };
 
   return (
-    <div>
+    <div className="mt-32">
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
@@ -98,7 +105,7 @@ export default function CreationPage() {
           )}
         </div>
 
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} className="cursor-pointer">
           {isLoading ? "Creando..." : "Crear debate"}
         </Button>
       </form>

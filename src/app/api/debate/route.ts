@@ -6,7 +6,38 @@ export async function POST(req: Request) {
     const { title, genre } = await req.json();
 
     const user = await currentUser();
-    if (!user) return new Response("Unauthorized", { status: 401 });
+    if (!user) {
+      return new Response(
+        JSON.stringify({
+          message: "Debe iniciar sesión para poder crear un debate.",
+        }),
+        {
+          status: 401,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+    const findDebate = await prisma.debate.findFirst({
+      where: {
+        ownerId: user.id,
+        isActive: true,
+      },
+    });
+    if (findDebate) {
+      return new Response(
+        JSON.stringify({
+          message: "Ya tienes un debate activo.",
+        }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
 
     const debate = await prisma.debate.create({
       data: {
@@ -30,6 +61,14 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Error creating debate:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return new Response(
+      JSON.stringify({ message: "Error interno del servidor." }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 }

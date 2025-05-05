@@ -11,6 +11,7 @@ export async function GET(req: Request) {
         },
       },
     });
+
     if (!debates) return new Response("No debates found", { status: 404 });
     return new Response(JSON.stringify(debates), {
       status: 200,
