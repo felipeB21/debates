@@ -46,31 +46,21 @@ export function UserAvatarDropdown({ user }: UserAvatarDropdownProps) {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Link
-              href={`/profile/${user.id}`}
-              className="flex items-center gap-2 w-full"
-            >
-              <UserIcon className="mr-2 h-4 w-4" />
-              <p>Perfil</p>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={`/profile/${user.id}/settings`}
+              href={`/profile/settings/${user.id}`}
               className="flex items-center gap-2 w-full"
             >
               <Settings className="mr-2 h-4 w-4" />
-              <p>Configuración</p>
+              <p>Cambiar nombre</p>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <button
             onClick={() => signOut()}
             className="flex items-center gap-2 w-full cursor-pointer"
           >
             <LogOut className="mr-2 h-4 w-4" />
-            <p>Serrar sesión</p>
+            <p>Cerrar sesión</p>
           </button>
         </DropdownMenuItem>
       </DropdownMenuContent>

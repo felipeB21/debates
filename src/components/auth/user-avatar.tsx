@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { auth } from "../../../auth";
 import { SignIn } from "./signin-button";
 import { UserAvatarDropdown } from "./dropdown-menu";
