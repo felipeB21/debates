@@ -40,10 +40,10 @@ export default function CreationPage() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/debate", data);
-
+      const res = await axios.post("/api/debate", data);
+      const debateId = res.data.id;
       form.reset();
-      router.push("/");
+      router.push(`/debate/${debateId}`);
     } catch (error: any) {
       console.error("Error creating debate:", error);
       toast.error(
